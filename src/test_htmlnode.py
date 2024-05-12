@@ -1,6 +1,7 @@
 import unittest
 
-from htmlnode import HTMLNode, LeafNode, ParentNode
+from htmlnode import HTMLNode, LeafNode, ParentNode, text_node_to_html_node
+from textnode import TextNode
 
 class TestTextNode(unittest.TestCase):
     def test_eq(self):
@@ -48,6 +49,10 @@ class TestTextNode(unittest.TestCase):
         rendered_text = '<a href="https://www.google.com">Click me!</a>'
         self.assertNotEqual(lnode.to_html(), rendered_text)
 
+    def test_text_to_leafnode(self):
+        text_node = TextNode("Bold text", "bold")
+        html_node = LeafNode("b", "Bold text")
+        self.assertEqual(text_node_to_html_node(text_node), html_node)
 
         
 

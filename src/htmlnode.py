@@ -1,3 +1,24 @@
+from textnode import TextNode
+
+def text_node_to_html_node(text_node: TextNode):
+    supported_text_types = ["text", "bold", "italic", "code", "link", "image"]
+    if text_node.text_type not in supported_text_types:
+        raise ValueError("Text type not supported")
+    
+    if text_node.text_type == "text":
+        return LeafNode(value=text_node.text)
+    if text_node.text_type == "bold":
+        return LeafNode(tag="b", value=text_node.text)
+    if text_node.text_type == "italic":
+        return LeafNode(tag="i", value=text_node.text)
+    if text_node.text_type == "code":
+        return LeafNode(tag="code", value=text_node.text)
+    if text_node.text_type == "link":
+        return LeafNode(tag="a", value=text_node.text, props={"href": text_node.url})
+    if text_node.text_type == "image":
+        return LeafNode(tag="img", props={"src": text_node.url, "alt": text_node.text})
+
+
 class HTMLNode():
     def __init__(self, tag: str = None, value: str = None, children: list = None, props:dict = None) -> None:
         self.tag = tag
