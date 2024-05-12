@@ -1,6 +1,6 @@
 import unittest
 
-from htmlnode import HTMLNode, LeafNode
+from htmlnode import HTMLNode, LeafNode, ParentNode
 
 class TestTextNode(unittest.TestCase):
     def test_eq(self):
@@ -19,6 +19,17 @@ class TestTextNode(unittest.TestCase):
         lnode = LeafNode("a", "Click me!", {"href": "https://www.google.com"})
         rendered_text = '<a href="https://www.google.com">Click me!</a>'
         self.assertEqual(lnode.to_html(), rendered_text)
+
+        pnode = ParentNode(
+            "p",
+            [
+                LeafNode("b", "Bold text"),
+                LeafNode(None, "Normal text"),
+                LeafNode("i", "italic text"),
+                LeafNode(None, "Normal text"),
+            ],
+        )
+        self.assertEqual(pnode.to_html(), "<p><b>Bold text</b>Normal text<i>italic text</i>Normal text</p>")
     
     def test_not_eq(self):
         node = HTMLNode(tag="a", value="This is a text node", props={"href": "https://www.boot.dev"})
@@ -36,6 +47,8 @@ class TestTextNode(unittest.TestCase):
         lnode = LeafNode("a", "Click me!", {"href": "https://www.google.no"})
         rendered_text = '<a href="https://www.google.com">Click me!</a>'
         self.assertNotEqual(lnode.to_html(), rendered_text)
+
+
         
 
 if __name__ == "__main__":
